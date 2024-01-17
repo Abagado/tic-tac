@@ -1,0 +1,36 @@
+.b{
+    min-height: 100vh;
+    width: 100%;
+    background: #222222;
+    display: flex; 
+}
+.left{
+    width: 30%;
+    color: white;
+    padding: 20px;
+    margin-top: 70px;
+    text-align: center;
+}
+input{
+    position: relative;
+    width: 250px;
+    height: 30px;
+    margin-bottom: 30px;
+}
+.btn{
+    position: relative;
+    width: 250px;
+    height: 30px;
+    margin-bottom: 30px;
+}
+h2{
+    color:white;
+    margin-bottom: 30px;
+}
+.fil{
+    position: relative;
+    margin-left: 15px;
+    width: 160px;
+    height: 30px;
+    margin-bottom: 30px;
+}
