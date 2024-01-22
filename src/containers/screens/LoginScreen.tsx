@@ -9,16 +9,17 @@ import { useNavigate } from 'react-router-dom'
 import { login } from '../../store/user/userSlice'
 
 const LoginScreen: FC= () => {
-    const[email,setLogin]=useState<string>('')
-    const[password,setPassword]=useState<string>('')
-    const[isLogin,setIsLogin]=useState<boolean>(false)
+    const[username, setLogin] = useState<string>('')
+    const[password, setPassword] = useState<string>('')
+    const[isLogin, setIsLogin] = useState<boolean>(false)
     const dispatch=useAppDispatch()
     const navigate=useNavigate()
 
     const loginHandler=async(e: React.FormEvent<HTMLFormElement>)=>{
         try{
+            debugger;
             e.preventDefault()
-            const data=await AuthService.login({email, password})
+            const data=await AuthService.login({username, password})
 
             if(data){
                 setTokenToLocalStorage('token',data.token)
@@ -34,8 +35,9 @@ const LoginScreen: FC= () => {
 
     const registrationHandler=async(e: React.FormEvent<HTMLFormElement>)=>{
         try{
+            debugger;
             e.preventDefault()
-            const data=await AuthService.registration({email, password})
+            const data=await AuthService.registration({username, password})
             if(data){
                 toast.success('Account has been created')
                 setIsLogin(!isLogin)
@@ -67,7 +69,7 @@ const LoginScreen: FC= () => {
                     placeholder='Введите пароль'
                     onChange={(e)=>setPassword(e.target.value)}
                     />
-                <button className='btn_g' onClick={()=>setIsLogin(!isLogin)}>Вход</button>
+                <button className='btn_g'>Вход</button>
            </form>
            <div className='reg'>
                 {

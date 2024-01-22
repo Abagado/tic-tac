@@ -1,16 +1,16 @@
 export interface IUser{
     id: number
-    email: string
+    username: string
     token: string
 }
 
 export interface IUserData{
-    email:string
+    username:string
     password:string
 }
 
 export interface IResponseUser{
-    email:string
+    username:string
     id:number
     createdAt: string
     updateAt:string
