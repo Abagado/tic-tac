@@ -34,3 +34,34 @@ h2{
     height: 30px;
     margin-bottom: 30px;
 }
+.out{
+    position:absolute;
+    width: 200px;
+    height: 35px;
+    cursor: pointer;
+    color:white;
+    outline: none;
+    background: #222222;
+    border: none;
+}
+.out:hover{
+    background: white;
+    color:#222222;
+    transition: .3s all ease;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    color: white;
+    border-bottom: 1px solid rgb(176, 164, 164);
+    margin-bottom: 10px;
+    font-size: x-large;
+  }
+  
+  li a {
+    text-decoration: none;
+    color: white;
+  }

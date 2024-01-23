@@ -3,12 +3,27 @@ import './HomeScreen.css';
 import GameContainer from '../GameContainer';
 import { fetchLobbies, createLobby } from '../../api/apiFunctions';
 import { LobbyData } from '../../types/types';
+import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 const HomeScreen:FC = () => {
   const [roomName, setRoomName] = useState('');
   const [selectedPlayer, setSelectedPlayer] = useState('');
+  const [name, setName] = useState('');
+  const [guest, setGuest] = useState('');
   const [filter, setFilter] = useState('');
+  const [filteredLobbies, setFilteredLobbies] = useState<LobbyData[]>([]);
   const [lobbies, setLobbies] = useState<LobbyData[]>([]);
+  const [username, setUsername] = useState('');
+  const isAuth=useAuth()
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Дополнительные операции, связанные с выходом пользователя
+    navigate('/'); // Переход на страницу логина после выхода
+  };
+  
 
   useEffect(() => {
     // При загрузке компонента получаем список доступных комнат
@@ -29,27 +44,44 @@ const HomeScreen:FC = () => {
       console.error('Ошибка при создании комнаты:', error);
     });
   };
-
+  const handleCreate = () => {
+    fetch('/api/game_rooms/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Token YOUR_TOKEN_HERE',
+      },
+      body: JSON.stringify({ name, guest }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Room created:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
   const handleApplyFilter = () => {
-    // Здесь можно реализовать фильтрацию доступных комнат
-    // Можно использовать filter() для отфильтровывания списка комнат и обновления состояния lobbies
+    const filtered = lobbies.filter(lobby => lobby.name.toLowerCase().includes(filter.toLowerCase()));
+    setFilteredLobbies(filtered);
   };
 
   return (
     <div className='b'>
+        <h1>{isAuth? <button onClick={handleLogout} className='out'>выйти</button>:null}</h1>
       <div className='left'>
         <h2>Создать новую комнату</h2>
         <input
           type="text"
-          value={roomName}
+          value={name}
           placeholder="Название комнаты"
-          onChange={(e) => setRoomName(e.target.value)}
+          onChange={e => setName(e.target.value)}
         />
         <input
           type="text"
-          value={selectedPlayer}
+          value={guest}
           placeholder="Имя игрока"
-          onChange={(e) => setSelectedPlayer(e.target.value)}
+          onChange={e => setGuest(e.target.value)}
         />
         <button onClick={handleCreateLobby} className='btn'>Создать</button>
       </div>
@@ -60,7 +92,7 @@ const HomeScreen:FC = () => {
           padding: '20px',
         }}
       >
-        <h2>Выберите существующую комнату</h2>
+        <h2>Выберите комнату для игры</h2>
         <input
           type="text"
           value={filter}
@@ -69,9 +101,15 @@ const HomeScreen:FC = () => {
         />
         <button onClick={handleApplyFilter} className='fil'>Применить</button>
         <ul>
-          {lobbies.map((lobby) => (
-            <li key={lobby.id}>{lobby.name}</li>
-          ))}
+          {filteredLobbies.length > 0 ? ( // Если есть отфильтрованные комнаты, отображаем их
+            filteredLobbies.map((lobby) => (
+              <li key={lobby.id}><Link to={`/game/${lobby.id}`}>{lobby.name}</Link></li>
+            ))
+          ) : ( 
+            lobbies.map((lobby) => (
+                <li key={lobby.id}><Link to={`/game/${lobby.id}`}>{lobby.name}</Link></li>
+              ))
+          )}
         </ul>
       </div>
     </div>

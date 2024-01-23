@@ -17,7 +17,7 @@ const LoginScreen: FC= () => {
 
     const loginHandler=async(e: React.FormEvent<HTMLFormElement>)=>{
         try{
-            debugger;
+            
             e.preventDefault()
             const data=await AuthService.login({username, password})
 
@@ -35,7 +35,7 @@ const LoginScreen: FC= () => {
 
     const registrationHandler=async(e: React.FormEvent<HTMLFormElement>)=>{
         try{
-            debugger;
+            
             e.preventDefault()
             const data=await AuthService.registration({username, password})
             if(data){

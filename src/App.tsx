@@ -9,12 +9,11 @@ export default function App() {
     
   return (
     <>
-      
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<LoginScreen/>}/>
           <Route path='home' element={<HomeScreen/>}/>
-          <Route path='game' element={<GameContainer/>}/>
+          <Route path='game/:roomId' element={<GameContainer/>}/>
         </Routes>
       </BrowserRouter>
     </>
