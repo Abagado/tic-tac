@@ -34,24 +34,14 @@ const HomeScreen:FC = () => {
     });
   }, []); // Вторым аргументом передаем [] чтобы запустить useEffect только при первой отрисовке
 
-  const handleCreateLobby = () => {
-    const newLobbyData: LobbyData = { name: roomName, guests: [selectedPlayer], id: 0 };
-    createLobby(newLobbyData).then((response) => {
-      // Обработка успешного создания комнаты
-      console.log('Комната успешно создана:', response.data);
-      // Тут можно добавить новую комнату в список комнат lobbies, если это необходимо
-    }).catch((error) => {
-      console.error('Ошибка при создании комнаты:', error);
-    });
-  };
+  
   const handleCreate = () => {
-    fetch('/api/game_rooms/', {
+    fetch('api/lobbies/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token YOUR_TOKEN_HERE',
       },
-      body: JSON.stringify({ name, guest }),
+      body: JSON.stringify({ name: name, guest: guest }), 
     })
     .then(response => response.json())
     .then(data => {
@@ -59,6 +49,14 @@ const HomeScreen:FC = () => {
     })
     .catch(error => {
       console.error('Error:', error);
+    });
+  };
+  const handleCreateLobby = () => {
+    const newLobbyData: LobbyData = { name: name, guests: [guest], id: 0 }; // Также используем значения из состояний name и guest
+    createLobby(newLobbyData).then((response) => {
+      console.log('Комната успешно создана:', response.data);
+    }).catch((error) => {
+      console.error('Ошибка при создании комнаты:', error);
     });
   };
   const handleApplyFilter = () => {
